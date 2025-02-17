@@ -26,7 +26,7 @@ scriptDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 # have been put in place by createDockerCluster.sh
 export MQCHLLIB=$scriptDir
 export MQCHLTAB=CCDT.JSON
-
+export MQAPPLNAME="amqsghac"
 
 # Producing MQ demo application
 appName="amqsghac"
@@ -45,5 +45,6 @@ echo -e '\033[0;92m'
 # Start multiple consuming application instances
 for (( i=0; i<$appCount; ++i)); do
   echo "Starting $appName"
-    echo "$password" | $appName $queueName $qmgrName &
+  echo "$password" | $appName $queueName $qmgrName &
+  sleep 2
 done

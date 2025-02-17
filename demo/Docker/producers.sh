@@ -27,6 +27,7 @@ scriptDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 # have been put in place by createDockerCluster.sh
 export MQCHLLIB=$scriptDir
 export MQCHLTAB=CCDT.JSON
+export MQAPPLNAME="amqsphac"
 
 # Producing MQ demo application
 appName="amqsphac"
@@ -42,10 +43,19 @@ export MQSAMP_USER_ID=$appUsedId
 # Set the output to the same colour used by connections.sh
 echo -e '\033[0;93m'
 
-# Start multiple application instances
-for (( i=0; i<$appCount; ++i)); do
+function sendMessage() {
   echo "Starting $appName"
   echo "$password" | $appName $queueName $qmgrName &
   # Stagger the applications slightly, just so their output is smoother for the screen
-  sleep 0.2
+  sleep 0.5
+}
+
+# Start multiple application instances
+for (( i=0; i<$appCount; ++i)); do
+  sendMessage &
+  sleep 2
+  #echo "Starting $appName"
+  #echo "$password" | $appName $queueName $qmgrName &
+  # Stagger the applications slightly, just so their output is smoother for the screen
+  #sleep 0.2
 done
